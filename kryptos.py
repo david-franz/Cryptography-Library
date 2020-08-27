@@ -153,19 +153,3 @@ class Kryptos:
 
         return ''.join(plaintext)
 
-
-k = Kryptos(" abcdefghijklmnopqrstuvwxyz")
-
-with open('oldmanandthesea.txt') as f:
-    plaintext = f.read()
-
-plaintext = plaintext.lower()
-
-encrypted_string = k.affine_encrypt_string(plaintext, 7, 5)
-
-f = open("output.txt", "w")
-
-f.write(k.sub_letter_frequency(encrypted_string, True))
-
-f.close()
-
