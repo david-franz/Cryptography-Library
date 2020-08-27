@@ -13,6 +13,7 @@ class Kryptos:
     def __init__(self, alphabet_string):
         n = 0
         for c in alphabet_string:
+            if c == ' ': self.letter_frequency_table.insert(0, ' ')
             self.alphabet[c] = n
             n += 1
 
@@ -34,30 +35,27 @@ class Kryptos:
     # frequency #
     #############
 
-    def lookup_frequency_index(self, character, letter_frequencies):
-        i = 0
+    def build_swap_table(self, letter_frequencies):
+        swap_table = {}
         
-        n_character = self.alphabet[character]
-        for c in letter_frequencies:
-            n_c = self.alphabet[c]
-            if n_c == n_character: 
-                return i
-            i += 1
+        index = 0
+        for c in letter_frequencies.keys():
+            print(self.letter_frequency_table[index])
+            swap_table[c] = self.letter_frequency_table[index]
+            index += 1
         
-        raise Exception
+        return swap_table
 
     def sub_letter_frequency(self, encrypted_string, spaces_included = False):
         if type(spaces_included) is not bool: raise Exception
-        if spaces_included is True and ' ' in self.alphabet: raise Exception
-        if spaces_included: self.letter_frequency_table.insert(0, ' ')
+        if spaces_included and ' ' not in self.alphabet: self.letter_frequency_table.insert(0, ' ')
         
         letter_frequencies = Counter(encrypted_string)
+        swap_table = self.build_swap_table(letter_frequencies)
 
         decrypted_string = []
         for c in encrypted_string:
-            index = self.lookup_frequency_index(c, letter_frequencies) % 26
-            print(index)
-            decrypted_string.append(self.letter_frequency_table[index])
+            decrypted_string.append(swap_table[c])
 
         return ''.join(decrypted_string)
 
@@ -153,3 +151,20 @@ class Kryptos:
 
         return ''.join(plaintext)
 
+
+# k = Kryptos(" abcdefghijklmnopqrstuvwxyz")
+
+'''
+with open('oldmanandthesea.txt') as f:
+    plaintext = f.read()
+
+plaintext = plaintext.lower()
+
+encrypted_string = k.affine_encrypt_string(plaintext, 7, 5)
+
+f = open('output.txt', 'w')
+
+f.write(k.sub_letter_frequency(encrypted_string))
+
+f.close()
+'''
