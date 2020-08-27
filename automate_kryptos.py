@@ -36,13 +36,3 @@ class AutomatedKryptos:
                 best_guess_of_displacement[1] = len(words)
 
         return decryption_function(encrypted_string, best_guess_of_displacement[0])
-
-
-k = Kryptos(" abcdefghijklmnopqrstuvwxyz")
-k_automated = AutomatedKryptos(k)
-
-
-encrypted_string = "fmuyfmleyimleqynpmrcqrcpqyctzbcynmjgacyzlbyiccnyrfcybckmlqrpzrgmlqyzjgtcytgqszjygltcqrgezrgmlq"
-
-guessed_answer = k_automated.caeser_try_all(encrypted_string)
-print(guessed_answer)
